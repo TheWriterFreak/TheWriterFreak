@@ -1,4 +1,4 @@
-## Hi there 👋 I'm currently working on my own individual novel that's out for the publishing process (Spoiler: I'm SOOOOOOOOOOOOOO excited!!!!!!!!!). I am always looking for ways to destroy readers so any suggestions you have will be awesome!
+## Hi there 👋 I'm currently working on my own individual novel that's out for the publishing process (Spoiler: I'm SOOOOOOOOOOOOOO excited!!!!!!!!!). I am always looking for ways to destroy readers so any suggestions you have will be awesome! Ask me about it and hope you like the blog!
 
 <!--
 **TheWriterFreak/TheWriterFreak** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
