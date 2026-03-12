@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TheWriterFreak</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a1410;--bg2:#221c16;--bg3:#2a221a;--border:rgba(196,158,88,0.2);--text:#e8dcc8;--text2:#b8a888;--text3:#887858;--accent:#c49e58;--accent2:#a07838;--hf:'Playfair Display',serif;--bf:'Lora',serif;--mf:'DM Mono',monospace;--tag-bg:rgba(196,158,88,0.12);--tag-color:#c49e58;--cs:0 4px 30px rgba(0,0,0,0.45)}
+[data-theme="cottagecore"]{--bg:#181e12;--bg2:#1e2618;--bg3:#242e1e;--border:rgba(140,180,100,0.2);--text:#e4ecd8;--text2:#a8c088;--text3:#78906a;--accent:#8cb864;--accent2:#6a9048;--tag-bg:rgba(140,180,100,0.12);--tag-color:#8cb864}
+[data-theme="rainy"]{--bg:#0e1218;--bg2:#131820;--bg3:#181e28;--border:rgba(100,140,190,0.2);--text:#d4dce8;--text2:#8898b0;--text3:#587090;--accent:#6890c8;--accent2:#4870a8;--tag-bg:rgba(100,140,190,0.12);--tag-color:#6890c8}
+[data-theme="fae"]{--bg:#080e10;--bg2:#0c1418;--bg3:#101c20;--border:rgba(80,180,180,0.2);--text:#d0e8e8;--text2:#70b0b8;--text3:#407880;--accent:#50c0c0;--accent2:#309898;--tag-bg:rgba(80,180,180,0.12);--tag-color:#50c0c0}
+[data-theme="vintage"]{--bg:#12100e;--bg2:#1a1714;--bg3:#221e1a;--border:rgba(180,140,80,0.2);--text:#f0e0c0;--text2:#c0a060;--text3:#907040;--accent:#d4a040;--accent2:#b08020;--tag-bg:rgba(180,140,80,0.12);--tag-color:#d4a040}
+[data-theme="darkblue"]{--bg:#060810;--bg2:#0a0e18;--bg3:#0e1420;--border:rgba(60,100,200,0.2);--text:#c8d4f0;--text2:#6878b0;--text3:#384868;--accent:#4868d8;--accent2:#2848b8;--tag-bg:rgba(60,100,200,0.12);--tag-color:#4868d8}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--bf);font-size:16px;line-height:1.7;min-height:100vh;transition:background 0.5s,color 0.5s;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px 80px;position:relative;z-index:1}
+
+/* THEME BAR */
+.tbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(0,0,0,0.7);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:0 22px;display:flex;align-items:center;justify-content:space-between;height:42px}
+.tbar-lbl{font-family:var(--mf);font-size:0.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--text3)}
+.tdots{display:flex;gap:7px;align-items:center}
+.tdot{width:16px;height:16px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.2s}
+.tdot:hover{transform:scale(1.3)}
+.tdot.active{border-color:var(--text)}
+.tdot[data-t="academia"]{background:radial-gradient(#c49e58,#5a3c18)}
+.tdot[data-t="cottagecore"]{background:radial-gradient(#8cb864,#304818)}
+.tdot[data-t="rainy"]{background:radial-gradient(#6890c8,#162850)}
+.tdot[data-t="fae"]{background:radial-gradient(#50c0c0,#083838)}
+.tdot[data-t="vintage"]{background:radial-gradient(#d4a040,#502e00)}
+.tdot[data-t="darkblue"]{background:radial-gradient(#4868d8,#060c28)}
+.tname{font-family:var(--mf);font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);min-width:88px;text-align:right}
+.admin-trigger{font-family:var(--mf);font-size:0.55rem;letter-spacing:1px;color:var(--text3);cursor:pointer;opacity:0.3;background:none;border:none;transition:opacity 0.2s;padding:4px}
+.admin-trigger:hover{opacity:0.7}
+
+/* HEADER */
+.site-header{padding:86px 0 52px;text-align:center;border-bottom:1px solid var(--border);margin-bottom:52px;animation:up 0.6s ease both}
+.site-header::before{content:'✦  ✦  ✦';display:block;font-size:0.62rem;letter-spacing:8px;color:var(--accent);opacity:0.5;margin-bottom:18px}
+.site-title{font-family:var(--hf);font-size:clamp(2rem,6vw,4rem);font-weight:900;color:var(--text);letter-spacing:-1px;line-height:1.05;margin-bottom:10px}
+.site-title em{color:var(--accent);font-style:normal}
+.site-tagline{font-family:var(--bf);font-style:italic;font-size:0.95rem;color:var(--text3)}
+
+/* NAV TABS */
+nav{display:flex;justify-content:center;gap:5px;flex-wrap:wrap;margin-bottom:50px}
+.nbtn{font-family:var(--mf);font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;border-radius:2px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all 0.2s}
+.nbtn:hover{color:var(--accent);border-color:var(--accent)}
+.nbtn.active{background:var(--accent);color:var(--bg);border-color:var(--accent);font-weight:700}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:1fr 278px;gap:36px;align-items:start}
+@media(max-width:760px){.layout{grid-template-columns:1fr}}
+
+/* POST GRID */
+.sec-lbl{font-family:var(--mf);font-size:0.56rem;letter-spacing:4px;text-transform:uppercase;color:var(--text3);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
+.pgrid{display:grid;gap:16px}
+.empty-state{text-align:center;padding:60px 20px;color:var(--text3);font-style:italic;font-size:0.9rem;display:none}
+.empty-state.show{display:block}
+
+.pcard{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:24px 22px;cursor:pointer;transition:all 0.25s;position:relative;overflow:hidden;animation:up 0.4s ease both}
+.pcard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),transparent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s}
+.pcard:hover{background:var(--bg3);transform:translateY(-2px);box-shadow:var(--cs)}
+.pcard:hover::after{transform:scaleX(1)}
+.ptag{display:inline-block;font-family:var(--mf);font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;padding:2px 9px;border-radius:20px;background:var(--tag-bg);color:var(--tag-color);margin-bottom:10px}
+.ptitle{font-family:var(--hf);font-size:1.1rem;font-weight:700;font-style:italic;color:var(--text);line-height:1.3;margin-bottom:8px}
+.pexcerpt{font-size:0.86rem;color:var(--text2);line-height:1.75;margin-bottom:12px}
+.pmeta{font-family:var(--mf);font-size:0.58rem;letter-spacing:1px;color:var(--text3);display:flex;justify-content:space-between;align-items:center}
+.pmeta-date{color:var(--text3)}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:58px}
+.widget{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:20px 18px;margin-bottom:16px}
+.wtitle{font-family:var(--mf);font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.about-text{font-size:0.84rem;color:var(--text2);line-height:1.75;font-style:italic}
+.cats{list-style:none}
+.cats li{padding:7px 0;border-bottom:1px solid var(--border);font-size:0.85rem;color:var(--text2);display:flex;justify-content:space-between;cursor:pointer;transition:color 0.2s}
+.cats li:last-child{border-bottom:none}
+.cats li:hover{color:var(--accent)}
+.cats li span{color:var(--text3);font-family:var(--mf);font-size:0.7rem}
+.qtext{font-family:var(--hf);font-style:italic;font-size:0.93rem;color:var(--text2);line-height:1.7;text-align:center}
+.qtext cite{display:block;margin-top:8px;font-family:var(--mf);font-style:normal;font-size:0.58rem;letter-spacing:2px;color:var(--text3);text-transform:uppercase}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.88);backdrop-filter:blur(5px);display:none;align-items:flex-start;justify-content:center;padding:50px 18px;overflow-y:auto}
+.overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:4px;max-width:700px;width:100%;padding:44px 40px;position:relative;animation:up 0.3s ease}
+@media(max-width:580px){.modal{padding:28px 20px}}
+.mcls{position:absolute;top:16px;right:16px;background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;width:30px;height:30px;border-radius:50%;font-size:0.85rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.mcls:hover{color:var(--accent);border-color:var(--accent)}
+.mtag{display:inline-block;font-family:var(--mf);font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;padding:2px 9px;border-radius:20px;background:var(--tag-bg);color:var(--tag-color);margin-bottom:14px}
+.mtitle{font-family:var(--hf);font-size:clamp(1.5rem,4vw,2rem);font-weight:700;font-style:italic;color:var(--text);line-height:1.2;margin-bottom:8px}
+.mmeta{font-family:var(--mf);font-size:0.6rem;letter-spacing:1.5px;color:var(--text3);margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+.mbody{color:var(--text2);line-height:1.9;font-size:0.95rem;margin-bottom:36px}
+.mbody p{margin-bottom:16px}
+.mbody h2{font-family:var(--hf);color:var(--text);font-size:1.4rem;margin:28px 0 10px;font-style:italic}
+.mbody h3{font-family:var(--hf);color:var(--text);font-size:1.15rem;margin:22px 0 8px}
+.mbody strong{color:var(--text);font-weight:600}
+.mbody em{color:var(--accent);font-style:italic}
+.mbody blockquote{border-left:3px solid var(--accent);padding:10px 18px;margin:18px 0;font-style:italic;color:var(--text2);background:rgba(196,158,88,0.05);border-radius:0 3px 3px 0}
+.mbody ul,.mbody ol{padding-left:20px;margin-bottom:16px}
+.mbody li{margin-bottom:6px}
+.mbody hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+
+/* COMMENTS */
+.comments-section{border-top:1px solid var(--border);padding-top:28px}
+.comments-title{font-family:var(--mf);font-size:0.58rem;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.comments-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.comment-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:3px;padding:14px 16px;margin-bottom:10px}
+.comment-author{font-family:var(--mf);font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.comment-date{color:var(--text3);font-size:0.55rem;margin-left:8px}
+.comment-text{font-size:0.88rem;color:var(--text2);line-height:1.7}
+.no-comments{font-size:0.85rem;color:var(--text3);font-style:italic;margin-bottom:20px}
+.comment-form{margin-top:20px}
+.cf-title{font-family:var(--mf);font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:12px}
+.cf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+@media(max-width:500px){.cf-row{grid-template-columns:1fr}}
+.cf-input{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:2px;padding:10px 14px;color:var(--text);font-family:var(--bf);font-size:0.88rem;width:100%;transition:border-color 0.2s;outline:none}
+.cf-input:focus{border-color:var(--accent)}
+.cf-input::placeholder{color:var(--text3)}
+.cf-textarea{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:2px;padding:10px 14px;color:var(--text);font-family:var(--bf);font-size:0.88rem;width:100%;min-height:90px;resize:vertical;transition:border-color 0.2s;outline:none;margin-bottom:10px}
+.cf-textarea:focus{border-color:var(--accent)}
+.cf-textarea::placeholder{color:var(--text3)}
+.cf-submit{font-family:var(--mf);font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;padding:10px 22px;border:1px solid var(--accent);color:var(--accent);background:transparent;cursor:pointer;border-radius:2px;transition:all 0.2s}
+.cf-submit:hover{background:var(--accent);color:var(--bg)}
+
+/* ADMIN MODAL */
+.admin-overlay{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.92);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:30px 18px}
+.admin-overlay.open{display:flex}
+.admin-box{background:var(--bg2);border:1px solid var(--border);border-radius:4px;width:100%;max-width:640px;padding:36px 36px;position:relative;max-height:90vh;overflow-y:auto;animation:up 0.3s ease}
+.admin-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--accent),var(--accent2),transparent)}
+.admin-title{font-family:var(--hf);font-size:1.4rem;font-style:italic;color:var(--text);margin-bottom:6px}
+.admin-sub{font-family:var(--mf);font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:24px}
+.admin-close{position:absolute;top:14px;right:14px;background:none;border:1px solid var(--border);color:var(--text3);cursor:pointer;width:28px;height:28px;border-radius:50%;font-size:0.8rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.admin-close:hover{color:var(--accent);border-color:var(--accent)}
+.field-label{font-family:var(--mf);font-size:0.56rem;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:6px;display:block}
+.a-input{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:2px;padding:11px 14px;color:var(--text);font-family:var(--bf);font-size:0.92rem;width:100%;margin-bottom:14px;transition:border-color 0.2s;outline:none}
+.a-input:focus{border-color:var(--accent)}
+.a-input::placeholder{color:var(--text3)}
+.a-select{background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:11px 14px;color:var(--text);font-family:var(--mf);font-size:0.78rem;width:100%;margin-bottom:14px;outline:none;cursor:pointer}
+.a-textarea{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:2px;padding:11px 14px;color:var(--text);font-family:var(--bf);font-size:0.92rem;width:100%;min-height:240px;resize:vertical;margin-bottom:6px;transition:border-color 0.2s;outline:none;line-height:1.75}
+.a-textarea:focus{border-color:var(--accent)}
+.a-textarea::placeholder{color:var(--text3)}
+.format-hint{font-size:0.78rem;color:var(--text3);margin-bottom:16px;line-height:1.6;padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:2px;border-left:2px solid var(--border)}
+.format-hint strong{color:var(--text2)}
+.a-publish{font-family:var(--mf);font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;padding:12px 28px;background:var(--accent);color:var(--bg);border:none;border-radius:2px;cursor:pointer;font-weight:700;transition:all 0.2s;width:100%;margin-top:4px}
+.a-publish:hover{background:var(--accent2)}
+.a-msg{font-family:var(--mf);font-size:0.65rem;letter-spacing:1px;text-align:center;padding:10px;border-radius:2px;margin-top:10px;display:none}
+.a-msg.success{background:rgba(100,200,100,0.1);color:#80d080;display:block;border:1px solid rgba(100,200,100,0.2)}
+.a-msg.error{background:rgba(200,80,80,0.1);color:#d08080;display:block;border:1px solid rgba(200,80,80,0.2)}
+
+/* LOGIN BOX */
+.login-box{text-align:center;padding:10px 0}
+.login-box p{font-size:0.88rem;color:var(--text2);margin-bottom:18px;font-style:italic}
+.pw-input{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:2px;padding:11px 18px;color:var(--text);font-family:var(--mf);font-size:0.85rem;width:100%;max-width:280px;margin-bottom:12px;outline:none;text-align:center;transition:border-color 0.2s}
+.pw-input:focus{border-color:var(--accent)}
+.pw-btn{font-family:var(--mf);font-size:0.62rem;letter-spacing:2px;text-transform:uppercase;padding:10px 24px;background:var(--accent);color:var(--bg);border:none;border-radius:2px;cursor:pointer;font-weight:700;display:block;margin:0 auto;transition:all 0.2s}
+.pw-btn:hover{background:var(--accent2)}
+.pw-err{color:#d08080;font-size:0.78rem;margin-top:8px;display:none;font-family:var(--mf)}
+
+/* MANAGE POSTS */
+.manage-section{margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.manage-title{font-family:var(--mf);font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:var(--text3);margin-bottom:14px}
+.manage-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:2px;margin-bottom:8px}
+.manage-item-title{font-size:0.88rem;color:var(--text2);font-style:italic;flex:1;margin-right:12px}
+.del-btn{font-family:var(--mf);font-size:0.55rem;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(200,80,80,0.4);color:#c08080;background:transparent;cursor:pointer;border-radius:2px;transition:all 0.2s;flex-shrink:0}
+.del-btn:hover{background:rgba(200,80,80,0.15);border-color:#c08080}
+.no-posts-msg{font-size:0.85rem;color:var(--text3);font-style:italic}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:36px 0;text-align:center;margin-top:56px}
+.ftitle{font-family:var(--hf);font-size:1.3rem;font-style:italic;color:var(--text);margin-bottom:6px}
+.fsub{font-family:var(--mf);font-size:0.56rem;letter-spacing:3px;text-transform:uppercase;color:var(--text3)}
+
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:up 0.5s ease both}
+</style>
+</head>
+<body>
+
+<!-- THEME BAR -->
+<div class="tbar">
+  <span class="tbar-lbl">Mood</span>
+  <div class="tdots">
+    <div class="tdot active" data-t="academia" title="Dark Academia" onclick="setTheme('academia',this)"></div>
+    <div class="tdot" data-t="cottagecore" title="Cottagecore" onclick="setTheme('cottagecore',this)"></div>
+    <div class="tdot" data-t="rainy" title="Rainy Day" onclick="setTheme('rainy',this)"></div>
+    <div class="tdot" data-t="fae" title="Midnight Fae" onclick="setTheme('fae',this)"></div>
+    <div class="tdot" data-t="vintage" title="Vintage" onclick="setTheme('vintage',this)"></div>
+    <div class="tdot" data-t="darkblue" title="Dark Blue" onclick="setTheme('darkblue',this)"></div>
+  </div>
+  <span class="tname" id="tname">Dark Academia</span>
+  <button class="admin-trigger" onclick="openAdmin()" title="Admin">✦</button>
+</div>
+
+<div class="wrap">
+  <!-- HEADER -->
+  <header class="site-header">
+    <h1 class="site-title">The<em>Writer</em>Freak</h1>
+    <p class="site-tagline">novels, notes, and the occasional existential spiral</p>
+  </header>
+
+  <!-- NAV -->
+  <nav id="main-nav">
+    <button class="nbtn active" onclick="filterPosts('all',this)">All Posts</button>
+    <button class="nbtn" onclick="filterPosts('fiction',this)">Fiction & Worlds</button>
+    <button class="nbtn" onclick="filterPosts('academia',this)">Academia</button>
+    <button class="nbtn" onclick="filterPosts('musings',this)">Musings</button>
+    <button class="nbtn" onclick="filterPosts('craft',this)">On Writing</button>
+    <button class="nbtn" onclick="filterPosts('reviews',this)">Reviews</button>
+    <button class="nbtn" onclick="filterPosts('life',this)">Life & Things</button>
+  </nav>
+
+  <!-- LAYOUT -->
+  <div class="layout">
+    <main>
+      <div class="sec-lbl" id="sec-label">All Posts</div>
+      <div class="pgrid" id="pgrid"></div>
+      <div class="empty-state" id="empty-state">No posts here yet. Check back soon — or write one! ✦</div>
+    </main>
+
+    <aside class="sidebar">
+      <div class="widget">
+        <div class="wtitle">About</div>
+        <p class="about-text">A blog by someone with too many novels, strong opinions about slow burns, and a habit of turning study notes into art. Writing about fiction, academia, and everything in between.</p>
+      </div>
+      <div class="widget">
+        <div class="wtitle">Categories</div>
+        <ul class="cats" id="cat-sidebar"></ul>
+      </div>
+      <div class="widget">
+        <div class="wtitle">Currently Writing</div>
+        <p class="qtext">Currently writing a novel. Will update soon!</p>
+      </div>
+      <div class="widget">
+        <div class="wtitle">Themes</div>
+        <p style="font-size:0.8rem;color:var(--text3);line-height:1.7">Click the coloured dots at the top to change the mood: Dark Academia · Cottagecore · Rainy Day · Midnight Fae · Vintage · Dark Blue.</p>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <div class="ftitle">TheWriterFreak</div>
+    <div class="fsub">novels · notes · musings · ✦</div>
+  </footer>
+</div>
+
+<!-- POST READER MODAL -->
+<div class="overlay" id="post-overlay" onclick="closeOnBg(event,'post-overlay')">
+  <div class="modal">
+    <button class="mcls" onclick="closePost()">✕</button>
+    <span class="mtag" id="mtag"></span>
+    <h2 class="mtitle" id="mtitle"></h2>
+    <div class="mmeta" id="mmeta"></div>
+    <div class="mbody" id="mbody"></div>
+    <div class="comments-section" id="comments-section"></div>
+  </div>
+</div>
+
+<!-- ADMIN OVERLAY -->
+<div class="admin-overlay" id="admin-overlay" onclick="closeOnBg(event,'admin-overlay')">
+  <div class="admin-box">
+    <button class="admin-close" onclick="closeAdmin()">✕</button>
+
+    <!-- LOGIN -->
+    <div id="login-panel">
+      <div class="admin-title">Admin Panel</div>
+      <div class="admin-sub">TheWriterFreak · Enter password to continue</div>
+      <div class="login-box">
+        <p>Enter your password to manage posts.</p>
+        <input class="pw-input" type="password" id="pw-input" placeholder="password" onkeydown="if(event.key==='Enter')checkPw()">
+        <div class="pw-err" id="pw-err">Incorrect password.</div>
+        <br><button class="pw-btn" onclick="checkPw()">Enter</button>
+      </div>
+    </div>
+
+    <!-- WRITE PANEL -->
+    <div id="write-panel" style="display:none">
+      <div class="admin-title">New Post</div>
+      <div class="admin-sub">TheWriterFreak · Write &amp; Publish</div>
+
+      <label class="field-label">Post Title</label>
+      <input class="a-input" type="text" id="a-title" placeholder="Give your post a title...">
+
+      <label class="field-label">Category</label>
+      <select class="a-select" id="a-cat">
+        <option value="fiction">Fiction & Worlds</option>
+        <option value="academia">Academia</option>
+        <option value="musings">Musings</option>
+        <option value="craft">On Writing</option>
+        <option value="reviews">Reviews</option>
+        <option value="life">Life & Things</option>
+      </select>
+
+      <label class="field-label">Content</label>
+      <div class="format-hint">
+        <strong>Formatting guide (just type naturally):</strong><br>
+        Start a new paragraph → press Enter twice<br>
+        <strong>## Heading</strong> → big section title<br>
+        <strong>### Subheading</strong> → smaller heading<br>
+        <strong>**bold text**</strong> → <strong>bold</strong><br>
+        <strong>*italic text*</strong> → <em>italic</em><br>
+        <strong>&gt; your quote here</strong> → styled blockquote<br>
+        <strong>---</strong> → dividing line<br>
+        <strong>- item</strong> → bullet list
+      </div>
+      <textarea class="a-textarea" id="a-content" placeholder="Start writing your post here...&#10;&#10;Press Enter twice to start a new paragraph.&#10;&#10;Use ## for headings, **bold**, *italic*, > for quotes."></textarea>
+
+      <button class="a-publish" onclick="publishPost()">✦ Publish Post</button>
+      <div class="a-msg" id="a-msg"></div>
+
+      <div class="manage-section">
+        <div class="manage-title">Manage Existing Posts</div>
+        <div id="manage-list"></div>
+      </div>
+
+      <div style="text-align:center;margin-top:20px">
+        <button onclick="logout()" style="font-family:var(--mf);font-size:0.55rem;letter-spacing:2px;text-transform:uppercase;background:none;border:none;color:var(--text3);cursor:pointer;padding:6px">Sign Out</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONSTANTS ───
+const PW = 'password';
+const STORAGE_KEY = 'twf_posts';
+const COMMENTS_KEY = 'twf_comments';
+const THEMES = {academia:'Dark Academia',cottagecore:'Cottagecore',rainy:'Rainy Day',fae:'Midnight Fae',vintage:'Vintage',darkblue:'Dark Blue'};
+const CAT_LABELS = {fiction:'Fiction & Worlds',academia:'Academia',musings:'Musings',craft:'On Writing',reviews:'Reviews',life:'Life & Things'};
+
+// ─── THEME ───
+function setTheme(t, el) {
+  document.documentElement.setAttribute('data-theme', t === 'academia' ? '' : t);
+  document.querySelectorAll('.tdot').forEach(d => d.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tname').textContent = THEMES[t];
+  localStorage.setItem('twf_theme', t);
+}
+(function(){
+  const s = localStorage.getItem('twf_theme');
+  if (s && s !== 'academia') {
+    const d = document.querySelector(`.tdot[data-t="${s}"]`);
+    if (d) setTheme(s, d);
+  }
+})();
+
+// ─── POST STORAGE ───
+function getPosts() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch(e) { return []; }
+}
+function savePosts(posts) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+}
+function getComments() {
+  try { return JSON.parse(localStorage.getItem(COMMENTS_KEY)) || {}; }
+  catch(e) { return {}; }
+}
+function saveComments(c) {
+  localStorage.setItem(COMMENTS_KEY, JSON.stringify(c));
+}
+
+// ─── FORMAT MARKDOWN-LITE ───
+function formatContent(raw) {
+  if (!raw) return '';
+  const lines = raw.split('\n');
+  let html = '';
+  let inList = false;
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i];
+    // inline formatting
+    line = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    line = line.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    if (/^##\s+/.test(line)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += '<h2>' + line.replace(/^##\s+/, '') + '</h2>';
+    } else if (/^###\s+/.test(line)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += '<h3>' + line.replace(/^###\s+/, '') + '</h3>';
+    } else if (/^>\s+/.test(line)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += '<blockquote>' + line.replace(/^>\s+/, '') + '</blockquote>';
+    } else if (/^---$/.test(line.trim())) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += '<hr>';
+    } else if (/^[-*]\s+/.test(line)) {
+      if (!inList) { html += '<ul>'; inList = true; }
+      html += '<li>' + line.replace(/^[-*]\s+/, '') + '</li>';
+    } else if (line.trim() === '') {
+      if (inList) { html += '</ul>'; inList = false; }
+    } else {
+      if (inList) { html += '</ul>'; inList = false; }
+      // group consecutive non-empty lines into paragraphs
+      let para = line;
+      while (i + 1 < lines.length && lines[i+1].trim() !== '' && !/^[#>\-*]/.test(lines[i+1]) && !/^---$/.test(lines[i+1])) {
+        i++;
+        let next = lines[i];
+        next = next.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        next = next.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        para += ' ' + next;
+      }
+      html += '<p>' + para + '</p>';
+    }
+  }
+  if (inList) html += '</ul>';
+  return html;
+}
+
+function getExcerpt(raw, len) {
+  const plain = raw.replace(/[#>*_\-]/g, '').replace(/\n/g, ' ').trim();
+  return plain.length > len ? plain.substring(0, len) + '…' : plain;
+}
+
+function formatDate(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'});
+}
+
+// ─── CURRENT FILTER ───
+let currentFilter = 'all';
+let currentPostId = null;
+
+// ─── RENDER POSTS ───
+function renderPosts(filter) {
+  currentFilter = filter || currentFilter;
+  const posts = getPosts();
+  const grid = document.getElementById('pgrid');
+  const empty = document.getElementById('empty-state');
+  const label = document.getElementById('sec-label');
+  grid.innerHTML = '';
+  const filtered = currentFilter === 'all' ? posts : posts.filter(p => p.cat === currentFilter);
+  label.textContent = currentFilter === 'all' ? 'All Posts' : (CAT_LABELS[currentFilter] || currentFilter);
+  if (filtered.length === 0) {
+    empty.classList.add('show');
+  } else {
+    empty.classList.remove('show');
+    filtered.slice().reverse().forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'pcard';
+      card.style.animationDelay = (i * 0.06) + 's';
+      card.innerHTML = `
+        <span class="ptag">${CAT_LABELS[p.cat]||p.cat}</span>
+        <h3 class="ptitle">${p.title}</h3>
+        <p class="pexcerpt">${getExcerpt(p.content, 140)}</p>
+        <div class="pmeta"><span>${CAT_LABELS[p.cat]||p.cat}</span><span class="pmeta-date">${formatDate(p.ts)}</span></div>`;
+      card.onclick = () => openPost(p.id);
+      grid.appendChild(card);
+    });
+  }
+  renderSidebar();
+}
+
+// ─── SIDEBAR CATS ───
+function renderSidebar() {
+  const posts = getPosts();
+  const sidebar = document.getElementById('cat-sidebar');
+  sidebar.innerHTML = '';
+  Object.entries(CAT_LABELS).forEach(([key, label]) => {
+    const count = posts.filter(p => p.cat === key).length;
+    const li = document.createElement('li');
+    li.innerHTML = `${label} <span>${count}</span>`;
+    li.onclick = () => {
+      filterPosts(key, document.querySelector(`.nbtn[data-cat="${key}"]`) || document.querySelectorAll('.nbtn')[Object.keys(CAT_LABELS).indexOf(key)+1]);
+    };
+    sidebar.appendChild(li);
+  });
+}
+
+function filterPosts(cat, btn) {
+  document.querySelectorAll('.nbtn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderPosts(cat);
+}
+
+// ─── OPEN POST ───
+function openPost(id) {
+  const posts = getPosts();
+  const p = posts.find(x => x.id === id);
+  if (!p) return;
+  currentPostId = id;
+  document.getElementById('mtag').textContent = CAT_LABELS[p.cat] || p.cat;
+  document.getElementById('mtitle').textContent = p.title;
+  document.getElementById('mmeta').textContent = `${CAT_LABELS[p.cat]||p.cat} · ${formatDate(p.ts)}`;
+  document.getElementById('mbody').innerHTML = formatContent(p.content);
+  renderComments(id);
+  document.getElementById('post-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePost() {
+  document.getElementById('post-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentPostId = null;
+}
+
+// ─── COMMENTS ───
+function renderComments(postId) {
+  const allComments = getComments();
+  const comments = allComments[postId] || [];
+  const section = document.getElementById('comments-section');
+  let html = `<div class="comments-title">Comments (${comments.length})</div>`;
+  if (comments.length === 0) {
+    html += `<p class="no-comments">No comments yet. Be the first to leave one!</p>`;
+  } else {
+    comments.forEach(c => {
+      html += `<div class="comment-item">
+        <div class="comment-author">${escHtml(c.name)}<span class="comment-date">${formatDate(c.ts)}</span></div>
+        <div class="comment-text">${escHtml(c.text)}</div>
+      </div>`;
+    });
+  }
+  html += `<div class="comment-form">
+    <div class="cf-title">Leave a Comment</div>
+    <div class="cf-row">
+      <input class="cf-input" type="text" id="c-name" placeholder="Your name">
+      <input class="cf-input" type="text" id="c-handle" placeholder="Handle (optional)">
+    </div>
+    <textarea class="cf-textarea" id="c-text" placeholder="Write your comment..."></textarea>
+    <button class="cf-submit" onclick="submitComment('${postId}')">Post Comment</button>
+  </div>`;
+  section.innerHTML = html;
+}
+
+function submitComment(postId) {
+  const name = document.getElementById('c-name').value.trim();
+  const text = document.getElementById('c-text').value.trim();
+  if (!name) { alert('Please enter your name.'); return; }
+  if (!text) { alert('Please write something!'); return; }
+  const allComments = getComments();
+  if (!allComments[postId]) allComments[postId] = [];
+  allComments[postId].push({ name, text, ts: Date.now() });
+  saveComments(allComments);
+  renderComments(postId);
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── ADMIN ───
+let adminUnlocked = false;
+
+function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if (adminUnlocked) showWritePanel();
+  else showLoginPanel();
+}
+
+function closeAdmin() {
+  document.getElementById('admin-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function showLoginPanel() {
+  document.getElementById('login-panel').style.display = 'block';
+  document.getElementById('write-panel').style.display = 'none';
+}
+
+function showWritePanel() {
+  document.getElementById('login-panel').style.display = 'none';
+  document.getElementById('write-panel').style.display = 'block';
+  renderManageList();
+}
+
+function checkPw() {
+  const val = document.getElementById('pw-input').value;
+  if (val === PW) {
+    adminUnlocked = true;
+    document.getElementById('pw-err').style.display = 'none';
+    document.getElementById('pw-input').value = '';
+    showWritePanel();
+  } else {
+    document.getElementById('pw-err').style.display = 'block';
+  }
+}
+
+function logout() {
+  adminUnlocked = false;
+  closeAdmin();
+}
+
+function publishPost() {
+  const title = document.getElementById('a-title').value.trim();
+  const cat = document.getElementById('a-cat').value;
+  const content = document.getElementById('a-content').value.trim();
+  const msg = document.getElementById('a-msg');
+  if (!title) { showMsg('Please add a title!', 'error'); return; }
+  if (!content) { showMsg('Your post is empty!', 'error'); return; }
+  const posts = getPosts();
+  const newPost = {
+    id: 'p_' + Date.now(),
+    title, cat, content,
+    ts: Date.now()
+  };
+  posts.push(newPost);
+  savePosts(posts);
+  document.getElementById('a-title').value = '';
+  document.getElementById('a-content').value = '';
+  showMsg('✦ Post published successfully!', 'success');
+  renderPosts();
+  renderManageList();
+}
+
+function showMsg(text, type) {
+  const msg = document.getElementById('a-msg');
+  msg.textContent = text;
+  msg.className = 'a-msg ' + type;
+  setTimeout(() => { msg.className = 'a-msg'; }, 3500);
+}
+
+function renderManageList() {
+  const posts = getPosts();
+  const list = document.getElementById('manage-list');
+  if (posts.length === 0) {
+    list.innerHTML = '<p class="no-posts-msg">No posts yet — write your first one above!</p>';
+    return;
+  }
+  list.innerHTML = '';
+  posts.slice().reverse().forEach(p => {
+    const item = document.createElement('div');
+    item.className = 'manage-item';
+    item.innerHTML = `<span class="manage-item-title">${p.title}</span>
+      <button class="del-btn" onclick="deletePost('${p.id}')">Delete</button>`;
+    list.appendChild(item);
+  });
+}
+
+function deletePost(id) {
+  if (!confirm('Delete this post? This cannot be undone.')) return;
+  let posts = getPosts();
+  posts = posts.filter(p => p.id !== id);
+  savePosts(posts);
+  renderPosts();
+  renderManageList();
+}
+
+// ─── OVERLAY CLOSE ───
+function closeOnBg(e, id) {
+  if (e.target === document.getElementById(id)) {
+    if (id === 'post-overlay') closePost();
+    if (id === 'admin-overlay') closeAdmin();
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closePost(); closeAdmin(); }
+});
+
+// ─── SEED DEFAULT POST ───
+(function(){
+  const existing = getPosts();
+  const seedId = 'seed_001';
+  if (!existing.find(p => p.id === seedId)) {
+    existing.unshift({
+      id: seedId,
+      title: "A Glimpse Into My Novel's Universe",
+      cat: 'fiction',
+      content: "My novel is honestly a work of art. It's like a world with assassins but plot twists that are insane (even if I do say so myself) and will get better by the time we reach more books. I'm planning a four or five novel series with one novella.\n\nThe first round of edits will be done by tomorrow so I'm really REALLY excited to start working on it again. I'll drop the title and full summary soon.\n\nStay tuned for more!",
+      ts: new Date('2026-03-12').getTime()
+    });
+    savePosts(existing);
+  }
+})();
+
+// ─── INIT ───
+renderPosts();
+</script>
+</body>
+</html>
